@@ -92,7 +92,7 @@ func Typef(typeString string, values ...any) BuilderOption {
 	})
 }
 
-func Extension(key string, value any) BuilderOption {
+func With(key string, value any) BuilderOption {
 	return BuilderOptionFunc(func(problem *Problem) {
 		problem.WithExtension(key, value)
 	})

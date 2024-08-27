@@ -1,13 +1,15 @@
-package problem
+package caseconverter
 
 import (
 	"strings"
 	"unicode"
 )
 
+var ResponseKeyCasingConverter StringCasingConverter = SnakeCaseConverter
+
 type StringCasingConverter func(value string) string
 
-func splitIntoWords(value string) []string {
+func SplitIntoWords(value string) []string {
 	var words []string
 	var currentWord []rune
 	for _, r := range value {
@@ -28,7 +30,7 @@ func splitIntoWords(value string) []string {
 	return words
 }
 
-func capitalizeFirstChar(value string) string {
+func CapitalizeFirstChar(value string) string {
 	if len(value) == 0 {
 		return value
 	}
@@ -38,37 +40,37 @@ func capitalizeFirstChar(value string) string {
 }
 
 func SnakeCaseConverter(value string) string {
-	words := splitIntoWords(value)
+	words := SplitIntoWords(value)
 	return strings.Join(words, "_")
 }
 
 func CamelCaseConverter(value string) string {
-	words := splitIntoWords(value)
+	words := SplitIntoWords(value)
 	for i := range words {
 		if i > 0 {
-			words[i] = capitalizeFirstChar(words[i])
+			words[i] = CapitalizeFirstChar(words[i])
 		}
 	}
 	return strings.Join(words, "")
 }
 
 func KebabCaseConverter(value string) string {
-	words := splitIntoWords(value)
+	words := SplitIntoWords(value)
 	return strings.Join(words, "-")
 }
 
 func PascalCaseConverter(value string) string {
-	words := splitIntoWords(value)
+	words := SplitIntoWords(value)
 	for i := range words {
-		words[i] = capitalizeFirstChar(words[i])
+		words[i] = CapitalizeFirstChar(words[i])
 	}
 	return strings.Join(words, "")
 }
 
 func TrainCaseConverter(value string) string {
-	words := splitIntoWords(value)
+	words := SplitIntoWords(value)
 	for i := range words {
-		words[i] = capitalizeFirstChar(words[i])
+		words[i] = CapitalizeFirstChar(words[i])
 	}
 	return strings.Join(words, "-")
 }
