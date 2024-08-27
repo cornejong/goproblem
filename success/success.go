@@ -59,6 +59,8 @@ func (p *Success) WithExtension(key string, value any) *Success {
 func (p *Success) BuildMap() map[string]any {
 	problemMap := make(map[string]any)
 
+	problemMap[caseconverter.ResponseKeyCasingConverter("success")] = true
+
 	if p.Type != "" {
 		problemMap[caseconverter.ResponseKeyCasingConverter("type")] = p.Type
 	} else {
@@ -100,9 +102,9 @@ func (p *Success) WriteToResponseWriter(w http.ResponseWriter) error {
 		return err
 	}
 
+	w.WriteHeader(p.Status)
 	w.Header().Set("content-type", "application/problem")
 	w.Write(jsonString)
-	w.WriteHeader(p.Status)
 
 	return nil
 }
