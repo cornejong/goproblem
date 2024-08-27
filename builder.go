@@ -27,6 +27,17 @@ func New(options ...BuilderOption) *Problem {
 	return problem
 }
 
+func From(problem *Problem, options ...BuilderOption) *Problem {
+	p := *problem
+	newP := p
+
+	for _, option := range options {
+		option.apply(&newP)
+	}
+
+	return &newP
+}
+
 func Title(title string) BuilderOption {
 	return BuilderOptionFunc(func(problem *Problem) {
 		problem.WithTitle(title)

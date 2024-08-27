@@ -106,16 +106,18 @@ func (p *Problem) WriteToResponseWriter(w http.ResponseWriter) error {
 	return nil
 }
 
-func RespondWithProblem(w http.ResponseWriter, r *http.Request, problem Problem) error {
-	if problem.Instance == "" {
-		problem.WithInstance(r.URL.Path)
-	} 
+func (p *Problem) RespondWithProblem(w http.ResponseWriter, r *http.Request) error {
+	if p.Instance == "" {
+		p.WithInstance(r.URL.Path)
+	}
 
-	return problem.WriteToResponseWriter(w)
+	return p.WriteToResponseWriter(w)
 }
 
-func From(problem *Problem) *Problem {
-	p := *problem
-	newP := p
-	return &newP
+func RespondWithProblem(w http.ResponseWriter, r *http.Request, problem *Problem) error {
+	if problem.Instance == "" {
+		problem.WithInstance(r.URL.Path)
+	}
+
+	return problem.WriteToResponseWriter(w)
 }
