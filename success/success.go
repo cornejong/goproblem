@@ -65,6 +65,10 @@ func (p *Success) BuildMap() map[string]any {
 		problemMap[caseconverter.ResponseKeyCasingConverter("type")] = "about:blank"
 	}
 
+	if p.Status == 0 {
+		p.Status = 200
+	}
+
 	problemMap[caseconverter.ResponseKeyCasingConverter("status")] = p.Status
 	problemMap[caseconverter.ResponseKeyCasingConverter("title")] = p.Title
 
