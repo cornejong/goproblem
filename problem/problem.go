@@ -3,11 +3,16 @@ package problem
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/cornejong/goproblem/caseconverter"
 )
 
 var DefaultErrorKey string = "reason"
+var ResponseKeys map[string]string = map[string]string{
+	"type":     "type",
+	"state":    "status",
+	"title":    "title",
+	"detail":   "detail",
+	"instance": "instance",
+}
 
 type Problem struct {
 	Type     string `json:"type"`
@@ -62,22 +67,22 @@ func (p *Problem) BuildMap() map[string]any {
 	problemMap := make(map[string]any)
 
 	if p.Type != "" {
-		problemMap[caseconverter.ResponseKeyCasingConverter("type")] = p.Type
+		problemMap[ProblemResponseKeys["type"]] = p.Type
 	} else {
-		problemMap[caseconverter.ResponseKeyCasingConverter("type")] = "about:blank"
+		problemMap[ProblemResponseKeys["type"]] = "about:blank"
 	}
 
-	problemMap[caseconverter.ResponseKeyCasingConverter("status")] = p.Status
-	problemMap[caseconverter.ResponseKeyCasingConverter("title")] = p.Title
+	problemMap[ProblemResponseKeys["status"]] = p.Status
+	problemMap[ProblemResponseKeys["title"]] = p.Title
 
 	if p.Detail != "" {
-		problemMap[caseconverter.ResponseKeyCasingConverter("detail")] = p.Detail
+		problemMap[ProblemResponseKeys["detail"]] = p.Detail
 	}
 
-	problemMap[caseconverter.ResponseKeyCasingConverter("instance")] = p.Instance
+	problemMap[ProblemResponseKeys["instance"]] = p.Instance
 
 	for _, extension := range p.Extensions {
-		problemMap[caseconverter.ResponseKeyCasingConverter(extension.Key)] = extension.Value
+		problemMap[extension.Key] = extension.Value
 	}
 
 	return problemMap

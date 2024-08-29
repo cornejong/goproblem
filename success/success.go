@@ -3,9 +3,16 @@ package success
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/cornejong/goproblem/caseconverter"
 )
+
+var ResponseKeys map[string]string = map[string]string{
+	"success":  "success",
+	"type":     "type",
+	"state":    "status",
+	"title":    "title",
+	"detail":   "detail",
+	"instance": "instance",
+}
 
 type Success struct {
 	Type     string `json:"type,omitempty"`
@@ -59,29 +66,31 @@ func (p *Success) WithExtension(key string, value any) *Success {
 func (p *Success) BuildMap() map[string]any {
 	problemMap := make(map[string]any)
 
-	problemMap[caseconverter.ResponseKeyCasingConverter("success")] = true
-
-	if p.Type != "" {
-		problemMap[caseconverter.ResponseKeyCasingConverter("type")] = p.Type
-	} else {
-		problemMap[caseconverter.ResponseKeyCasingConverter("type")] = "about:blank"
-	}
-
 	if p.Status == 0 {
 		p.Status = 200
 	}
 
-	problemMap[caseconverter.ResponseKeyCasingConverter("status")] = p.Status
-	problemMap[caseconverter.ResponseKeyCasingConverter("title")] = p.Title
+	problemMap[ResponseKeys["success"]] = true
+	problemMap[ResponseKeys["status"]] = p.Status
 
-	if p.Detail != "" {
-		problemMap[caseconverter.ResponseKeyCasingConverter("detail")] = p.Detail
+	if p.Type != "" {
+		problemMap[ResponseKeys["type"]] = p.Type
 	}
 
-	problemMap[caseconverter.ResponseKeyCasingConverter("instance")] = p.Instance
+	if p.Title != "" {
+		problemMap[ResponseKeys["title"]] = p.Title
+	}
+
+	if p.Detail != "" {
+		problemMap[ResponseKeys["detail"]] = p.Detail
+	}
+
+	if p.Instance != "" {
+		problemMap[ResponseKeys["instance"]] = p.Instance
+	}
 
 	for _, extension := range p.Extensions {
-		problemMap[caseconverter.ResponseKeyCasingConverter(extension.Key)] = extension.Value
+		problemMap[extension.Key] = extension.Value
 	}
 
 	return problemMap
@@ -103,7 +112,7 @@ func (p *Success) WriteToResponseWriter(w http.ResponseWriter) error {
 	}
 
 	w.WriteHeader(p.Status)
-	w.Header().Set("content-type", "application/problem")
+	w.Header().Set("content-type", "application/json")
 	w.Write(jsonString)
 
 	return nil
