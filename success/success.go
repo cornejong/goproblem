@@ -8,7 +8,7 @@ import (
 var ResponseKeys map[string]string = map[string]string{
 	"success":  "success",
 	"type":     "type",
-	"state":    "status",
+	"status":   "status",
 	"title":    "title",
 	"detail":   "detail",
 	"instance": "instance",

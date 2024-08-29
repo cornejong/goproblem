@@ -8,7 +8,7 @@ import (
 var DefaultErrorKey string = "reason"
 var ResponseKeys map[string]string = map[string]string{
 	"type":     "type",
-	"state":    "status",
+	"status":   "status",
 	"title":    "title",
 	"detail":   "detail",
 	"instance": "instance",
