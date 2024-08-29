@@ -67,19 +67,19 @@ func (p *Problem) BuildMap() map[string]any {
 	problemMap := make(map[string]any)
 
 	if p.Type != "" {
-		problemMap[ProblemResponseKeys["type"]] = p.Type
+		problemMap[ResponseKeys["type"]] = p.Type
 	} else {
-		problemMap[ProblemResponseKeys["type"]] = "about:blank"
+		problemMap[ResponseKeys["type"]] = "about:blank"
 	}
 
-	problemMap[ProblemResponseKeys["status"]] = p.Status
-	problemMap[ProblemResponseKeys["title"]] = p.Title
+	problemMap[ResponseKeys["status"]] = p.Status
+	problemMap[ResponseKeys["title"]] = p.Title
 
 	if p.Detail != "" {
-		problemMap[ProblemResponseKeys["detail"]] = p.Detail
+		problemMap[ResponseKeys["detail"]] = p.Detail
 	}
 
-	problemMap[ProblemResponseKeys["instance"]] = p.Instance
+	problemMap[ResponseKeys["instance"]] = p.Instance
 
 	for _, extension := range p.Extensions {
 		problemMap[extension.Key] = extension.Value
