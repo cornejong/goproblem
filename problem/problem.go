@@ -103,8 +103,8 @@ func (p *Problem) WriteToResponseWriter(w http.ResponseWriter) error {
 		return err
 	}
 
+	w.Header().Set("Content-Type", "application/problem+json")
 	w.WriteHeader(p.Status)
-	w.Header().Set("content-type", "application/problem+json")
 	w.Write(jsonString)
 
 	return nil

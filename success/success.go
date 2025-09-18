@@ -111,8 +111,8 @@ func (p *Success) WriteToResponseWriter(w http.ResponseWriter) error {
 		return err
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(p.Status)
-	w.Header().Set("content-type", "application/json")
 	w.Write(jsonString)
 
 	return nil
